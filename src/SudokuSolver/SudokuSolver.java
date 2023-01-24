@@ -56,6 +56,14 @@ for (int row = 0; row < 9; row++) {
     for (int col = 0; col < 9; col++) {
         Button button = new Button();
         button.setPrefSize(40, 40);
+        
+        // Set the background color of the button
+        if ((row / 3 + col / 3) % 2 == 0) {
+            button.setStyle("-fx-background-color: brown;");
+        } else {
+            button.setStyle("-fx-background-color: gray;");
+        }
+        
         final int currentRow = row;
         final int currentCol = col;
         button.setOnAction(event -> {
