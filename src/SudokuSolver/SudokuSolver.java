@@ -48,24 +48,28 @@ public class SudokuSolver extends Application {
         // Create a text field for user to input a number
         TextField textField = new TextField();
         root.add(textField, 9, 0);
-        
 
+      Label errorLabel = new Label();
+root.add(errorLabel, 0, 9, 9, 1);
 
- for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                Button button = new Button();
-                button.setPrefSize(40, 40);
-                final int currentRow = row;
-            final int currentCol = col;
-                 button.setOnAction(event -> {
-                String text = textField.getText();
-                if (!text.isEmpty()) {
-                    int value = Integer.parseInt(text);
-                    grid[currentRow][currentCol] = value;
-                    button.setText(text);
-                    textField.clear();
-                }
-            });
+for (int row = 0; row < 9; row++) {
+    for (int col = 0; col < 9; col++) {
+        Button button = new Button();
+        button.setPrefSize(40, 40);
+        final int currentRow = row;
+        final int currentCol = col;
+        button.setOnAction(event -> {
+            String text = textField.getText();
+            if (!text.isEmpty() && isValidInput(text)) {
+                int value = Integer.parseInt(text);
+                grid[currentRow][currentCol] = value;
+                button.setText(text);
+                textField.clear();
+                errorLabel.setText("");
+            } else {
+                errorLabel.setText("Invalid input, please enter a number between 1 and 9");
+            }
+        });
         root.add(button, col, row);
         buttons[row][col] = button;
     }
@@ -119,6 +123,15 @@ public class SudokuSolver extends Application {
         }
     }
 
+    // Method to validate Input
+    private boolean isValidInput(String input) {
+        try {
+            int value = Integer.parseInt(input);
+            return value >= 1 && value <= 9;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
     // Method to solve the Sudoku
     private void solve() {
